@@ -5,7 +5,8 @@
     <h3 th:if="${userid}" th:text = "${username} + '\'s Subscriptions'"> </h3>
     <h3 th:if="${userid} == null">All Services </h3>
 
-    <a class="btn btn-primary" th:href=" ${'/users/' + {userid} +'/subscribe'} ">Subscribe to service</a>
+    <a th:if="${userid}" class="btn btn-primary" th:href=" ${'/users/' + {userid} +'/subscribe'} ">Subscribe to service</a>
+    <a th:if="${userid} == null" class="btn btn-primary" href="/services/new">Add a new service</a>
 
     <table class="table table-striped" id="services_list">
         <thead>

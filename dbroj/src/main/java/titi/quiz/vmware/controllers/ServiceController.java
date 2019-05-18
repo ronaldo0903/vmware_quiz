@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import titi.quiz.vmware.domain.Service;
 import titi.quiz.vmware.domain.ServiceRepository;
+import titi.quiz.vmware.domain.User;
+import titi.quiz.vmware.domain.UserRepository;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/services")
@@ -18,21 +22,31 @@ public class ServiceController {
     @Autowired
     private ServiceRepository repository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public String listSubscriptions(Model model) {
+    public String allServices(Model model) {
         model.addAttribute("services", repository.findAll());
         return "services/list";
     }
 
     @RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
     public ModelAndView delete(@PathVariable long id) {
+        Service service = repository.findOne(id);
+        List<User> relatedUsers = repository.getUsersByServiceId(id);
+        relatedUsers.forEach(user -> {
+            user.removeService(service);
+            userRepository.save(user);
+        });
         repository.delete(id);
-        return new ModelAndView("redirect:/services/list");
+        return new ModelAndView("redirect:/services");
     }
 
     @RequestMapping(value = "/users/{serviceId}", method = RequestMethod.GET)
     public String findSubscribedUsers(@PathVariable long serviceId, Model model) {
         model.addAttribute("users", repository.getUsersByServiceId(serviceId));
+        model.addAttribute("serviceid", serviceId);
         return "users/list";
     }
 
@@ -41,9 +55,9 @@ public class ServiceController {
         return "services/new";
     }
 
-    /*@RequestMapping(value = "/create", method = RequestMethod.POST)
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ModelAndView create(@RequestParam("name") String name) {
         repository.save(new Service(name));
-        return new ModelAndView("redirect:/services/list");
-    }*/
+        return new ModelAndView("redirect:/services");
+    }
 }

@@ -2,7 +2,7 @@
 
 <div layout:fragment="content">
 
-    <!--<a class="btn btn-primary" href="/users/new">Add a new user</a>-->
+    <a class="btn btn-primary" href="/users/new">Add a new user</a>
 
     <table class="table table-striped" id="users_list">
         <thead>
@@ -19,7 +19,7 @@
             <td class="message" data-th-text="${user.age}"></td>
 
             <td>
-                <a th:href="@{'/users/{id}/delete'(id=${user.id})}" class="delete" th:attr="name=${user.name}">
+                <a th:if="${serviceid} == null" th:href="@{'/users/{id}/delete'(id=${user.id})}" class="delete" th:attr="name=${user.name}">
                         <span class="fa-stack">
                             <i class="glyphicon glyphicon-trash"></i>
                         </span>

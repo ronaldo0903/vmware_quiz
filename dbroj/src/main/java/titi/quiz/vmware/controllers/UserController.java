@@ -72,10 +72,10 @@ public class UserController {
     @RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
     public ModelAndView delete(@PathVariable long id) {
         repository.delete(id);
-        return new ModelAndView("redirect:/users/list");
+        return new ModelAndView("redirect:/users");
     }
 
-    /*@RequestMapping(value="/new", method = RequestMethod.GET)
+    @RequestMapping(value="/new", method = RequestMethod.GET)
     public String newProject() {
         return "users/new";
     }
@@ -83,6 +83,6 @@ public class UserController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ModelAndView create(@RequestParam("name") String name, @RequestParam("age") int age) {
         repository.save(new User(name, age));
-        return new ModelAndView("redirect:/users/list");
-    }*/
+        return new ModelAndView("redirect:/users");
+    }
 }
