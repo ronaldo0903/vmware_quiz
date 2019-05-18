@@ -7,11 +7,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import titi.quiz.vmware.domain.Service;
-import titi.quiz.vmware.domain.ServiceRepository;
+import titi.quiz.vmware.dao.ServiceRepository;
 import titi.quiz.vmware.domain.User;
-import titi.quiz.vmware.domain.UserRepository;
-
-import java.util.Random;
+import titi.quiz.vmware.dao.UserRepository;
 
 @SpringBootApplication
 public class DbProjApplication implements CommandLineRunner {

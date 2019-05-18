@@ -9,9 +9,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import titi.quiz.vmware.domain.Service;
-import titi.quiz.vmware.domain.ServiceRepository;
+import titi.quiz.vmware.dao.ServiceRepository;
 import titi.quiz.vmware.domain.User;
-import titi.quiz.vmware.domain.UserRepository;
+import titi.quiz.vmware.dao.UserRepository;
+import titi.quiz.vmware.service.ServiceBiz;
 
 import java.util.List;
 
@@ -20,32 +21,23 @@ import java.util.List;
 public class ServiceController {
 
     @Autowired
-    private ServiceRepository repository;
-
-    @Autowired
-    private UserRepository userRepository;
+    private ServiceBiz serviceBiz;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String allServices(Model model) {
-        model.addAttribute("services", repository.findAll());
+        model.addAttribute("services", serviceBiz.getAllServices());
         return "services/list";
     }
 
     @RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
     public ModelAndView delete(@PathVariable long id) {
-        Service service = repository.findOne(id);
-        List<User> relatedUsers = repository.getUsersByServiceId(id);
-        relatedUsers.forEach(user -> {
-            user.removeService(service);
-            userRepository.save(user);
-        });
-        repository.delete(id);
+        serviceBiz.deleteService(id);
         return new ModelAndView("redirect:/services");
     }
 
     @RequestMapping(value = "/users/{serviceId}", method = RequestMethod.GET)
     public String findSubscribedUsers(@PathVariable long serviceId, Model model) {
-        model.addAttribute("users", repository.getUsersByServiceId(serviceId));
+        model.addAttribute("users", serviceBiz.getUsersByServiceId(serviceId));
         model.addAttribute("serviceid", serviceId);
         return "users/list";
     }
@@ -57,7 +49,7 @@ public class ServiceController {
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public ModelAndView create(@RequestParam("name") String name) {
-        repository.save(new Service(name));
+        serviceBiz.createService(name);
         return new ModelAndView("redirect:/services");
     }
 }
