@@ -2,10 +2,10 @@ package titi.quiz.vmware.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import titi.quiz.vmware.dao.ServiceRepository;
 import titi.quiz.vmware.dao.UserRepository;
 import titi.quiz.vmware.domain.Service;
 import titi.quiz.vmware.domain.User;
+import titi.quiz.vmware.service.ServiceBiz;
 import titi.quiz.vmware.service.UserBiz;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public class UserBizImpl implements UserBiz {
     private UserRepository repository;
 
     @Autowired
-    private ServiceRepository serviceRepository;
+    private ServiceBiz serviceBiz;
 
     @Override
     public List<User> getAllUsers() {
@@ -37,14 +37,14 @@ public class UserBizImpl implements UserBiz {
     @Override
     public void deleteUserSubscription(long userId, long serviceId) {
         User u = repository.findOne(userId);
-        Service s = serviceRepository.findOne(serviceId);
+        Service s = serviceBiz.getServiceById(serviceId);
         u.removeService(s);
         repository.save(u);
     }
 
     @Override
     public List<Service> getUserUnsubscribedServices(long userId) {
-        List<Service> allServices = serviceRepository.findAll();
+        List<Service> allServices = serviceBiz.getAllServices();
         User u = repository.findOne(userId);
         List<Service> unsubscribedServices = allServices.stream().filter(s -> !u.getServices().contains(s)).collect(Collectors.toList());
         return unsubscribedServices;
@@ -53,7 +53,7 @@ public class UserBizImpl implements UserBiz {
     @Override
     public void addUserSubscription(long userId, long serviceId) {
         User u = repository.findOne(userId);
-        Service s = serviceRepository.findOne(serviceId);
+        Service s = serviceBiz.getServiceById(serviceId);
         u.addService(s);
         repository.save(u);
     }

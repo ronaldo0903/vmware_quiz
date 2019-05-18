@@ -3,12 +3,11 @@ package titi.quiz.vmware.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import titi.quiz.vmware.dao.ServiceRepository;
-import titi.quiz.vmware.dao.UserRepository;
 import titi.quiz.vmware.domain.Service;
 import titi.quiz.vmware.domain.User;
 import titi.quiz.vmware.service.ServiceBiz;
+import titi.quiz.vmware.service.UserBiz;
 
-import javax.imageio.spi.ServiceRegistry;
 import java.util.List;
 
 @Component
@@ -17,7 +16,8 @@ public class ServiceBizImpl implements ServiceBiz {
     private ServiceRepository repository;
 
     @Autowired
-    private UserRepository userRepository;
+
+    private UserBiz userBiz;
 
     @Override
     public List<Service> getAllServices() {
@@ -39,8 +39,7 @@ public class ServiceBizImpl implements ServiceBiz {
         Service service = repository.findOne(serviceId);
         List<User> relatedUsers = repository.getUsersByServiceId(serviceId);
         relatedUsers.forEach(user -> {
-            user.removeService(service);
-            userRepository.save(user);
+            userBiz.deleteUserSubscription(user.getId(), serviceId);
         });
         repository.delete(serviceId);
     }
