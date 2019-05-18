@@ -1,0 +1,11 @@
+<html layout:decorator="layout">
+    <div layout:fragment="content">
+        <form method="post" name="comment_form" id="comment_form" action="/services/create" role="form">
+            <div class="form-group">
+                <label for="message">Post</label>
+                <input class="form-control" id="name" name="name"/>
+            </div>
+            <button type="submit" id="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</html>

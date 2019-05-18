@@ -1,0 +1,12 @@
+<html layout:decorator="layout">
+    <div layout:fragment="content">
+        <form method="post" name="comment_form" id="comment_form" action="/services/update" role="form">
+            <div class="form-group">
+                <label for="name">Post</label>
+                <input class="form-control" id="name" name="name" th:value="${service.name}"/>
+            </div>
+            <input type="hidden" id="service_id" class="form-control" name="service_id" th:value="${service.id}"/>
+            <button type="submit" id="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</html>

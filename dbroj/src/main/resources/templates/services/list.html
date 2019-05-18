@@ -1,0 +1,50 @@
+<html layout:decorator="layout">
+
+<div layout:fragment="content">
+
+    <a class="btn btn-primary" href="/services/new">Add a new service</a>
+
+    <table class="table table-striped" id="services_list">
+        <thead>
+        <tr>
+            <th>Service Name</th>
+            <th>Action</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr data-th-each="service : ${services}">
+            <td class="message" data-th-text="${service.name}"></td>
+
+            <td>
+                <!--<a th:if="${user.id neq null}" th:href="@{'/services/{id}/delete/{uid}'(id=${service.id},uid=${user.id})}" class="delete" th:attr="name=${service.name}">
+                        <span class="fa-stack">
+                            <i class="glyphicon glyphicon-trash"></i>
+                        </span>
+                </a>-->
+                <a th:href="@{'/services/{id}/delete'(id=${service.id})}" class="delete" th:attr="name=${service.name}">
+                        <span class="fa-stack">
+                            <i class="glyphicon glyphicon-trash"></i>
+                        </span>
+                </a>
+            </td>
+
+            <td>
+                <a th:href="@{'/services/{id}/edit'(id=${service.id})}" class="edit" th:attr="name=${service.name}">
+                    <span class="fa-stack">
+                        <i class="glyphicon glyphicon-edit"></i>
+                    </span>
+
+                </a>
+            </td>
+
+            <td>
+                <a th:href="@{'/services/users/{id}'(id=${service.id})}"> View Users
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</html>

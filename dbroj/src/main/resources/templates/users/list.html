@@ -1,0 +1,37 @@
+<html layout:decorator="layout">
+
+<div layout:fragment="content">
+
+    <a class="btn btn-primary" href="/users/new">Add a new user</a>
+
+    <table class="table table-striped" id="users_list">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Action</th>
+            <th>Subscriptions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr data-th-each="user : ${users}">
+            <td class="message" data-th-text="${user.name}"></td>
+            <td class="message" data-th-text="${user.age}"></td>
+
+            <td>
+                <a th:href="@{'/users/{id}/delete'(id=${user.id})}" class="delete" th:attr="name=${user.name}">
+                        <span class="fa-stack">
+                            <i class="glyphicon glyphicon-trash"></i>
+                        </span>
+                </a>
+            </td>
+
+            <td>
+                <a th:href="@{'/users/services/{id}'(id=${user.id})}">View
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</html>
