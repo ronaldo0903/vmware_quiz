@@ -20,20 +20,15 @@ public class ServiceController {
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String listSubscriptions(Model model) {
+        model.addAttribute("services", repository.findAll());
         return "services/list";
     }
 
     @RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
     public ModelAndView delete(@PathVariable long id) {
-        repository.deleteById(id);
-        return new ModelAndView("redirect:/services/list");
-    }
-
-    /*@RequestMapping(value = "/{serviceid}/delete/{userid}", method = RequestMethod.GET)
-    public ModelAndView deleteSubscription(@PathVariable long serviceId, @PathVariable long userId) {
         repository.delete(id);
         return new ModelAndView("redirect:/services/list");
-    }*/
+    }
 
     @RequestMapping(value = "/users/{serviceId}", method = RequestMethod.GET)
     public String findSubscribedUsers(@PathVariable long serviceId, Model model) {

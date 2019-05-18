@@ -13,7 +13,7 @@ public class Service {
 
     private String name;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "services")
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "services")
     private Set<User> users = new HashSet<>();
 
     public String getName() {

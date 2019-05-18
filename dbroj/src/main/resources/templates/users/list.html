@@ -2,7 +2,7 @@
 
 <div layout:fragment="content">
 
-    <a class="btn btn-primary" href="/users/new">Add a new user</a>
+    <!--<a class="btn btn-primary" href="/users/new">Add a new user</a>-->
 
     <table class="table table-striped" id="users_list">
         <thead>
@@ -27,7 +27,7 @@
             </td>
 
             <td>
-                <a th:href="@{'/users/services/{id}'(id=${user.id})}">View
+                <a th:href="@{'/users/services/{id}'(id=${user.id})}">Manage
                 </a>
             </td>
         </tr>

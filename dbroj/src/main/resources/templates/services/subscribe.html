@@ -2,11 +2,6 @@
 
 <div layout:fragment="content">
 
-    <h3 th:if="${userid}" th:text = "${username} + '\'s Subscriptions'"> </h3>
-    <h3 th:if="${userid} == null">All Services </h3>
-
-    <a class="btn btn-primary" th:href=" ${'/users/' + {userid} +'/subscribe'} ">Subscribe to service</a>
-
     <table class="table table-striped" id="services_list">
         <thead>
         <tr>
@@ -21,14 +16,9 @@
             <td class="message" data-th-text="${service.name}"></td>
 
             <td>
-                <a th:if="${userid}" th:href="${'/users/' + {userid} + '/delete/' + {service.id}}" class="delete" th:attr="name=${service.name}">
+                <a th:if="${userid}" th:href="${'/users/' + {userid} + '/subscribe/' + {service.id}}" class="add" th:attr="name=${service.name}">
                         <span class="fa-stack">
-                            <i class="glyphicon glyphicon-trash"></i>
-                        </span>
-                </a>
-                <a th:if="${userid} == null" th:href="@{'/services/{id}/delete'(id=${service.id})}" class="delete" th:attr="name=${service.name}">
-                        <span class="fa-stack">
-                            <i class="glyphicon glyphicon-trash"></i>
+                            <i class="glyphicon glyphicon-plus"></i>
                         </span>
                 </a>
             </td>
